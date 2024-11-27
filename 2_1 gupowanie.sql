@@ -96,7 +96,7 @@ group by o.employeeid, year(o.orderdate), month(o.orderdate), concat(e.firstname
 select categoryid as kategoria, max(unitprice) as [maksymalna cena], min(unitprice) as [minimalna cena]
 from Products
 group by categoryid
---2) wariant z joinami i nazwami produktow
+--2) wariant z joinami
 select p.categoryid as [ID kategorii], c.categoryname as kategoria, max(p.unitprice) as [maksymalna cena], min(p.unitprice) as [minimalna cena]
 from products p 
     inner join categories c on c.categoryid = p.CategoryID
