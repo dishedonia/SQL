@@ -113,6 +113,19 @@ from customers c
     join categories cat on cat.categoryid = p.categoryid 
 where cat.categoryname = 'Confections'
 
+    -- ALBO
+select c.companyname, c.phone
+from customers c -- -> nie trzeba tych wszystkich joinow
+EXCEPT
+select c.companyname, c.phone
+from customers c
+    join orders o on c.customerid = o.CustomerID 
+    join [order details] od on o.orderid = od.OrderID
+    join products p on p.productid = od.productid 
+    join categories cat on cat.categoryid = p.categoryid 
+where cat.categoryname = 'Confections' and year(o.orderdate) = 1997
+
+
 -- Wybierz nazwy i numery telefonów klientów, którzy w 1997r nie kupowali produktów z kategorii ‘Confectionsʼ
 select distinct c.companyname, c.phone
 from customers c
@@ -128,6 +141,15 @@ from customers c
     join products p on p.productid = od.productid 
     join categories cat on cat.categoryid = p.categoryid 
 where cat.categoryname = 'Confections' and year(o.orderdate) = 1997
+
+    -- ALBO
+select distinct o.customerid, c.companyname, c.phone
+from orders o
+     join [order details] od on o.orderid = od.OrderID  and year(o.orderdate) = 1997
+     join products p on p.productid = od.productid 
+	 join categories cat on cat.categoryid = p.categoryid and cat.categoryname = 'Confections' 
+	 right join customers c on c.customerid = o.customerid
+where o.orderid is null
 
 -- napisz polecenie, które wyświetla pracowników oraz ich podwładnych (baza northwind)
 select s.employeeid as [id pracownika], (s.firstname + ' ' + s.lastname) as pracownik, b.employeeid as [id przełożonego], (b.firstname + ' ' + b.lastname) as przełożony
