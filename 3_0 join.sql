@@ -249,3 +249,12 @@ where a.state = 'CA'
 group by m.firstname, m.lastname, a.state
     having count(j.member_no) > 3
 order by stan
+-- ALBO
+use library
+select (m.firstname + ' ' + m.lastname) as rodzic, a.state as stan, count(j.member_no) [liczba dzieci]
+from member m 
+    inner join adult a on a.member_no = m.member_no
+    inner join juvenile j on m.member_no = j.adult_member_no
+group by m.firstname, m.lastname, a.state
+    having (count(j.member_no) > 2 and state = 'AZ') or (count(j.member_no) > 3 and state = 'CA')
+order by stan
